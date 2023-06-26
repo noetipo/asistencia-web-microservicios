@@ -15,7 +15,7 @@ import {Period} from "../../models/period";
     <div>
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link active"><i class="{{ abcForms.btnNew.icon }}"></i> Nuevo Perido</a>
+          <a class="nav-link active"><i class="{{ abcForms.btnNew.icon }}"></i> Editar Periodo</a>
         </li>
       </ul>
       <form [formGroup]="periodForm" class="row mt-2 d-flex justify-content-start align-items-center ">

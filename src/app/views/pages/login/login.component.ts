@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   abcForms: any;
   loginForm = new FormGroup({
 
-    nombreUsuario: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
+    userName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
     password: new FormControl('', [Validators.required]),
 
   });
@@ -42,12 +42,11 @@ export class LoginComponent implements OnInit {
 
   public login(): void {
     if (this.loginForm.valid) {
-      /*this.oauthService.authenticate(this.loginForm.value).subscribe(response => {
-        console.log(response);
+      this.oauthService.authenticate(this.loginForm.value).subscribe(response => {
         if (response && localStorage.getItem('token')) {
           this.redirectInto();
         }
-      });*/
+      });
       this.redirectInto();
     }
 
@@ -59,9 +58,7 @@ export class LoginComponent implements OnInit {
 
   public open(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
-      //console.log(`Resultado: ${result}`);
-    }, (reason) => {
-      //console.log(`Razón: ${reason}`);
+      }, (reason) => {
     });
   }
 }

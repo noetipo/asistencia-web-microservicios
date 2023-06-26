@@ -22,7 +22,7 @@ import {Attendance} from "../models/attendance";
     <div>
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link active"><i class="{{ abcForms.btnNew.icon }}"></i> Nuevo Evento</a>
+          <a class="nav-link active"><i class="{{ abcForms.btnNew.icon }}"></i> Registro Asistencia</a>
         </li>
       </ul>
       <form [formGroup]="attendanceForm" class="row mt-2 d-flex justify-content-start align-items-center ">
@@ -113,8 +113,21 @@ import {Attendance} from "../models/attendance";
           <app-form-validate-errors [group]="attendanceForm"
                                     [controlName]="'dni'"></app-form-validate-errors>
         </div>
+        <div class="form-group col-md-2 required">
+          <div class="input-group input-group-sm">
+            <label class="col-form-label"><b>Registrar. </b></label>
+          </div>
+          <div class="input-group input-group-sm input-group-rounded">
+            <button type="button" class="btn {{ abcForms.btnSave.class }} btn-sm" (click)="saveForm()"
+                    [disabled]="attendanceForm.invalid">
+              <span class="{{ abcForms.btnSave.icon }} lamb-icon"></span> Registrar Asistencia
+            </button>
+          </div>
+
+        </div>
       </form>
     </div>
+    <hr>
     <div class="responsive-table">
       <table class="table table-lg table-hover table-striped table-sm">
         <thead>
@@ -142,14 +155,6 @@ import {Attendance} from "../models/attendance";
         </tr>
         </tbody>
       </table>
-    </div>
-    <div>
-      <div class="mt-4 d-flex justify-content-end">
-        <button type="button" class="btn {{ abcForms.btnSave.class }} btn-sm" (click)="saveForm()"
-                [disabled]="attendanceForm.invalid">
-          <span class="{{ abcForms.btnSave.icon }} lamb-icon"></span> {{ abcForms.btnSave.label }}
-        </button>
-      </div>
     </div>
   `
 })
@@ -204,7 +209,6 @@ export class AttendanceContainersComponent implements OnInit {
     this.attendanceForm.controls['evento'].valueChanges.subscribe(val => {
       // @ts-ignore
       this.event = val!;
-      console.log(this.event);
       this.eventDetails = this.event?.eventoDetalles!;
     });
     this.attendanceForm.controls['eventoDetalleId'].valueChanges.subscribe(val => {
@@ -250,7 +254,6 @@ export class AttendanceContainersComponent implements OnInit {
 
   public getEvents(id: number): void {
     this.eventService.getByProfessionalScholl$(id).subscribe(response => {
-      console.log(response);
       this.events = response;
     }, error => {
       this.error = error;
@@ -262,7 +265,6 @@ export class AttendanceContainersComponent implements OnInit {
     params.eventoId = this.event.id;
     params.actividadId = id;
     this.attendanceService.getForReport$(params).subscribe(response => {
-      console.log(response);
       this.attendances = response;
     }, error => {
       this.error = error;
@@ -275,7 +277,6 @@ export class AttendanceContainersComponent implements OnInit {
     params.eventoDetalleId = this.attendanceForm.value.eventoDetalleId!;
     params.eventoId = this.event.id!
     params.dni = this.attendanceForm.value.dni!;
-    console.log(params);
     this.attendanceService.saveAttendance$(params).subscribe(response => {
       if (response) {
         this.getAttendance(this.attendanceForm.value.eventoDetalleId!);
